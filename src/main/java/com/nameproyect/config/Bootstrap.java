@@ -10,6 +10,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Profile("!prod")
@@ -23,6 +25,7 @@ public class Bootstrap implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        System.out.println("Ejecutando Bootstrap...");
         // Crear usuarios con builder
         Usuario admin = Usuario.builder()
                 .usuario("admin")
@@ -52,7 +55,8 @@ public class Bootstrap implements ApplicationRunner {
                 .rol(Rol.GERENTE)
                 .build();
 
-        userRepository.saveAll(List.of(admin, operador, supervisor, gerente));
+        userRepository.saveAll(Arrays.asList(admin, operador, supervisor, gerente));
+
 
 
         Usuario usuarioChofer = Usuario.builder()
@@ -67,7 +71,7 @@ public class Bootstrap implements ApplicationRunner {
                 .nombre("chofer1")
                 .build();
 
-        choferRepository.saveAll(List.of(chofer));
+        choferRepository.saveAll(Collections.singletonList(chofer));
 
     }
 

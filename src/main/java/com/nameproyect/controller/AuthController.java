@@ -18,40 +18,38 @@ import java.util.List;
 public class AuthController {
     private final IAuthService authService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDto){
-        return ResponseEntity.ok(authService.login(loginRequestDto));
-    }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequestDTO registerRequestDto){
-        return new ResponseEntity<>(authService.register(registerRequestDto), HttpStatus.CREATED);
+    @PostMapping("/crear")
+    public ResponseEntity<?> crear(@RequestBody RegisterRequestDTO requestDTO) {
+        authService.crear(requestDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UpdateRequestDTO updateRequestDto){
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UpdateRequestDTO updateRequestDto) {
         authService.update(id, updateRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
     @PatchMapping("/inhabilitar/{id}")
-    public ResponseEntity<?> inhabilitar(@PathVariable Integer id){
+    public ResponseEntity<?> inhabilitar(@PathVariable Integer id) {
         authService.inhabilitar(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PatchMapping("/habilitar/{id}")
-    public ResponseEntity<?> habilitar(@PathVariable Integer id){
-        authService.habilitar(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
-        authService.logout(token);
+    @PatchMapping("/habilitar/{id}")
+    public ResponseEntity<?> habilitar(@PathVariable Integer id) {
+        authService.habilitar(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<GetUserDTO>> getAll() {
         return new ResponseEntity<>(authService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getUsers/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
+        return new ResponseEntity<>(authService.getById(id), HttpStatus.OK);
     }
 }
